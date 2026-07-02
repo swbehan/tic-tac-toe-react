@@ -1,39 +1,7 @@
-import { useState, useEffect } from "react";
 import Review from "./Review.jsx";
 
-export default function ReviewsList() {
-  const [reviews, setReviews] = useState([]);
+export default function ReviewsList({ reviews, query, setQuery }) {
   //creating a controlled component
-  const [query, setQuery] = useState("");
-
-  // cannot just use setReviews here and pass
-  // in the data like this (setReviews(data)) since you will get stuck in an infinite render loop
-  // need to use useEffect, takes a function as the first paramter that will be the function callback for the cleanup
-  // the second paramter will be an array that will take the paramters that you want to retrigger the effect (so the conditions you want the effect to run again in)
-  // use effect is used to sync the frontend and the backend
-  useEffect(() => {
-    const reloadReviews = async () => {
-      const res = await fetch(`/api/reviews?q=${query}`);
-      if (!res.ok) {
-        console.error("Failed to fetch reviews:", res.status, res.statusText);
-        return;
-      }
-      const data = await res.json();
-      setReviews(data);
-    };
-
-    // you can use a setTimeout to debouncing the useEffect so that it does not fire an request to the backend after every search
-    // so this says that we will wait 300 milliseconds to call the function reload reviews.
-    // you will then pass this const into the clean up object of the useEffect
-    const timeout = setTimeout(reloadReviews, 300);
-
-    // Cleanup function to clear timeout if query changes before timeout completes
-    // Will clear the previous call before going onto the next call if the next call is within the timeout window
-    return () => {
-      console.log("Fetching effect cleanup");
-      clearTimeout(timeout);
-    };
-  }, [query]);
 
   function renderReview(review, index) {
     return (

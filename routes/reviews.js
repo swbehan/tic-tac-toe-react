@@ -36,4 +36,21 @@ reviewsRouter.get("/reviews", (req, res) => {
   }
 });
 
+reviewsRouter.post("/reviews", (req, res) => {
+  const { reviewerName, reviewRating, reasoning } = req.body;
+  if (!reviewerName || !reviewRating || !reasoning) {
+    return res
+      .status(400)
+      .json({ error: "Name, rating and reasoning do not all have values" });
+  }
+
+  const newReview = {
+    reviewerName,
+    reviewRating,
+    reasoning,
+  };
+  reviews.push(newReview);
+  res.status(201).json({ msg: "New Listing Created", data: reviewRating });
+});
+
 export default reviewsRouter;
