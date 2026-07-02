@@ -1,14 +1,6 @@
 import { useState } from "react";
-
-function Voter({ name, numberOfVotes, onVote }) {
-  return (
-    <div>
-      Vote for <strong>{name} </strong>
-      <span>Voted {numberOfVotes} times </span>
-      <button onClick={onVote}>👍</button>
-    </div>
-  );
-}
+import TotalVotes from "./TotalVotes";
+import Voter from "./Voter";
 
 export default function VotingList() {
   const [voters, setVoters] = useState([
@@ -16,16 +8,19 @@ export default function VotingList() {
     { name: "Kyle", votes: 0 },
     { name: "Ryan", votes: 0 },
     { name: "Malachi", votes: 0 },
+    { name: "Benny", votes: 0 }
   ]);
 
   function handleClick(index) {
-    console.log("Clicked user at index", index)
+    console.log("Clicked user at index", index);
     setVoters(
-      voters.map(
-        (voter, i) =>
-          i === index ? { 
-            ...voter, votes: voter.votes + 1
-        } : voter,
+      voters.map((voter, i) =>
+        i === index
+          ? {
+              ...voter,
+              votes: voter.votes + 1,
+            }
+          : voter
       )
     );
   }
@@ -42,6 +37,12 @@ export default function VotingList() {
             onVote={() => handleClick(index)}
           />
         ))}
+        <TotalVotes
+          totalVotes={voters.reduce(
+            (totalVotes, voter) => totalVotes + voter.votes,
+            0
+          )}
+        />
       </div>
     </>
   );

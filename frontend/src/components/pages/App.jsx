@@ -39,6 +39,7 @@ export default function Game() {
   fetch("/api/reviews")
     .then((res) => res.json())
     .then((data) => console.log("Review data:", data));
+
   return (
     <>
       <h1>Tic-Tac-Toe Bro</h1>
