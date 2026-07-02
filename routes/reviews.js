@@ -22,7 +22,18 @@ const reviews = [
 ];
 
 reviewsRouter.get("/reviews", (req, res) => {
-  res.json(reviews);
+  console.log(req.query);
+  let query = req.query.q;
+  if (query) {
+    query = query.toString().toLocaleLowerCase();
+    return res.json(
+      reviews.filter((review) =>
+        review.reviewerName.toLocaleLowerCase().includes(query)
+      )
+    );
+  } else {
+    res.json(reviews);
+  }
 });
 
 export default reviewsRouter;

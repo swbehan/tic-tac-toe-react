@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Board from "../Board";
-import VotingList from "../VotingList";
+import VotingList from "../VotingList.jsx";
+import ReviewsList from "../ReviewsList.jsx"
 
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
@@ -34,12 +35,6 @@ export default function Game() {
     );
   });
 
-  console.log("Hello from react!");
-
-  fetch("/api/reviews")
-    .then((res) => res.json())
-    .then((data) => console.log("Review data:", data));
-
   return (
     <>
       <h1>Tic-Tac-Toe Bro</h1>
@@ -61,6 +56,9 @@ export default function Game() {
           <ol>{moves}</ol>
         </div>
       </div>
+      <section>
+        <ReviewsList />
+      </section>
       <section>
         <h2>Voting</h2>
         <VotingList />
